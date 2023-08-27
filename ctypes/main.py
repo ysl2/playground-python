@@ -30,3 +30,8 @@ print("Result:", result)
 
 print("Time C:", f'{(end - start):.8f}')
 print("Time P:", f'{(end1 - start1):.8f}')
+
+# Result: 333183354999
+# Result: 333183354999
+# Time C: 0.26109123
+# Time P: 6.15483618
