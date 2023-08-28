@@ -2,53 +2,55 @@ import example
 import time
 import numpy as np
 import copy
-
-x = 9999
-# Call the 'add' function
-start = time.time()
-result = example.example(x)
-end = time.time()
-print('Result:', result)
+from functools import wraps
 
 
-def example1(x):
-    y = None
-    for _ in range(x):
-        y = sum(i * i for i in range(x))
-    return y
+def timeit(fn):
+    @wraps(fn)
+    def _timeit(*args, **kwargs):
+        print('Func:', fn.__name__)
+        start = time.time()
+        result = fn(*args, **kwargs)
+        end = time.time()
+        print('Time:', f'{(end - start):.8f}')
+        return result
+    return _timeit
 
 
-start1 = time.time()
-result = example1(x)
-end1 = time.time()
-print('Result:', result)
-
-print('Time C:', f'{(end - start):.8f}')
-print('Time P:', f'{(end1 - start1):.8f}')
-
-m = 5.0
-arr = np.zeros([x, x])
-arr1 = copy.deepcopy(arr)
-
-start = time.time()
-example.replace_values(arr, m)
-end = time.time()
-print('Result:', arr[0, 0])
+X = 9999
 
 
-def replace_values1(arr):
-    for i in range(len(arr)):
-        for j in range(len(arr[i])):
-            arr[i, j] = m
+def test():
+    timeit(example.example)(X)
+
+    @timeit
+    def example1(x):
+        y = None
+        for _ in range(x):
+            y = sum(i * i for i in range(x))
+        return y
+
+    example1(X)
 
 
-start1 = time.time()
-replace_values1(arr1)
-end1 = time.time()
-print('Result:', arr[0, 0])
+def test1():
+    m = 5.0
+    arr = np.zeros([X, X])
+    arr1 = copy.deepcopy(arr)
 
-print('Time C:', f'{(end - start):.8f}')
-print('Time P:', f'{(end1 - start1):.8f}')
+    timeit(example.replace_values)(arr, m)
+
+    @timeit
+    def replace_values1(arr):
+        for i in range(len(arr)):
+            for j in range(len(arr[i])):
+                arr[i, j] = m
+
+    replace_values1(arr1)
+
+
+if __name__ == '__main__':
+    test()
 
 # Result: 333183354999
 # Result: 333183354999
