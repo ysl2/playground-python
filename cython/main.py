@@ -33,7 +33,7 @@ arr1 = copy.deepcopy(arr)
 start = time.time()
 example.replace_values(arr, m)
 end = time.time()
-print('Result: ', arr[0, 0])
+print('Result:', arr[0, 0])
 
 
 def replace_values1(arr):
@@ -45,7 +45,7 @@ def replace_values1(arr):
 start1 = time.time()
 replace_values1(arr1)
 end1 = time.time()
-print('Result: ', arr[0, 0])
+print('Result:', arr[0, 0])
 
 print('Time C:', f'{(end - start):.8f}')
 print('Time P:', f'{(end1 - start1):.8f}')
